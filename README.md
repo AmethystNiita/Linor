@@ -1,4 +1,4 @@
-## 💜 Linör
+## 💖 Linör
 
 Linör is a minimal, soft, and powerful desktop transliteration and pronunciation system. It provides a clean, distraction-free environment to instantly convert complex scripts, romanize texts, and hear the written word across dozens of global language families.
 
