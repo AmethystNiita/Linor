@@ -98,6 +98,7 @@ def transliterate_arabic(text, style='standard', number_style='keep'):
 
     if style == 'casual':
         fourth_exceptions = {}
+        prefixes = {}
     else:
         fourth_exceptions = {
             'التّ': 'ت-ت', 'الثّ': 'ث-ث', 'الدّ': 'د-د', 'الذّ': 'ذ-ذ',
@@ -108,6 +109,25 @@ def transliterate_arabic(text, style='standard', number_style='keep'):
             'الْع': 'ل-ع', 'الْغ': 'ل-غ', 'الْف': 'ل-ف', 'الْق': 'ل-ق',
             'الْك': 'ل-ك', 'الْم': 'ل-م', 'الْه': 'ل-ه', 'الْو': 'ل-و',
             'الْي': 'ل-ي', 'الْء': 'ل-ء',
+        }
+        prefixes = {
+            ' وَبِ': ' wa-bi-',
+            ' وَلِ': ' wa-li-',
+            ' وَكَ': ' wa-ka-',
+
+            ' فَبِ': ' fa-bi-',
+            ' فَلِ': ' fa-li-',
+            ' فَكَ': ' fa-ka-',
+
+            ' وَسَ': ' wa-sa-',
+            ' فَسَ': ' fa-sa-',
+
+            ' بِ': ' bi-',
+            ' لِ': ' li-',
+            ' كَ': ' ka-',
+            ' وَ': ' wa-',
+            ' فَ': ' fa-',
+            ' سَ': ' sa-'
         }
 
     def number_to_arabic_words(match):
@@ -154,6 +174,9 @@ def transliterate_arabic(text, style='standard', number_style='keep'):
 
         if exception in text:
             text = text.replace(exception, replacement)
+
+    for exception, replacement in prefixes.items():
+        text = text.replace(exception, replacement)
 
     text = text.replace('َا', 'ا')
 

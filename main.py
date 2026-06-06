@@ -12,7 +12,7 @@ category_languages = {
         "Adlam", "N'Ko"
     ],
     "Asian": [
-        "Burmese (Alpha)", "Chinese", "Khmer (Beta)", "Japanese", "Korean", "Thai"
+        "Burmese (Beta)", "Chinese", "Khmer (Beta)", "Japanese", "Korean", "Thai"
     ],
     "Dravidian": [
         "Kannada", "Malayalam", "Tamil"
@@ -49,7 +49,7 @@ language_styles = {
     "Belarusian": ["Standard"],
     "Bulgarian": ["Standard"],
     "Buryat": ["Standard"],
-    "Burmese (Alpha)": ["Standard"],
+    "Burmese (Beta)": ["Standard"],
     "Chinese": ["Standard"],
     "French": ["Standard", "Casual"],
     "Georgian (Asomtavruli)": ["Standard"],
@@ -80,13 +80,13 @@ language_styles = {
 }
 
 languages_with_number_to_word = ["Arabic", "French", "German", "Hebrew", "Japanese", "Russian", "Thai"]
+customtkinter.set_appearance_mode("dark")
 
 class App(customtkinter.CTk):
     def __init__(self):
         super().__init__()
 
-        self._set_appearance_mode("dark")
-        self.title("Linör 2.1")
+        self.title("Linör")
         self.geometry(f"{1100}x{580}")
         self.iconbitmap("linor-logo.ico")
 
@@ -101,7 +101,7 @@ class App(customtkinter.CTk):
         self.sidebar_frame.grid(row=0, column=0, rowspan=4, sticky="nsew")
         self.sidebar_frame.grid_rowconfigure(11, weight=1)
 
-        self.logo_label = customtkinter.CTkLabel(self.sidebar_frame, text="Linör 2.1",
+        self.logo_label = customtkinter.CTkLabel(self.sidebar_frame, text="Linör",
                                                  font=customtkinter.CTkFont(family="Segoe UI", size=20, weight="bold"))
         self.logo_label.grid(row=0, column=0, padx=20, pady=(20, 10))
 
@@ -174,6 +174,9 @@ class App(customtkinter.CTk):
                                                             command=self.transliterate)
         self.transliterate_button.grid(row=12, column=0, padx=20, pady=(10, 10))
 
+        self.style_label = customtkinter.CTkLabel(self.sidebar_frame, text="2.1.1")
+        self.style_label.grid(row=13, column=0, padx=(0, 0), pady=(0, 0), sticky="nsew")
+
     def on_language_change(self, choice):
         global language
         language = choice
@@ -238,7 +241,7 @@ class App(customtkinter.CTk):
             "Belarusian": itra.cyrillic.transliterate_belarusian,
             "Bulgarian": itra.cyrillic.transliterate_bulgarian,
             "Buryat": itra.cyrillic.transliterate_buryat,
-            "Burmese (Alpha)": itra.burmese.transliterate_burmese,
+            "Burmese (Beta)": itra.burmese.transliterate_burmese,
             "Chinese": itra.chinese.transliterate_chinese,
             "French": ipro.french.pronunciate_french,
             "Georgian (Asomtavruli)": itra.georgian.transliterate_asomtavruli,
