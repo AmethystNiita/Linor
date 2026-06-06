@@ -15,7 +15,7 @@ If you just want to run the app without messing with any code or terminals, you 
 
 1. Go to the "Releases" section on the right side of this GitHub page.
 2. Download the latest version.
-3. Run the installer, launch Linör, and say transliterate away.
+3. Run the installer, launch Linör, and transliterate away!
 
 ## 🌟 Setup and installation
 
