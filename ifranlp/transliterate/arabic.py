@@ -2,7 +2,7 @@ from num2words import num2words
 from ifranlp.diacritize import arabic
 import re
 
-def transliterate_arabic(text, style='standard', number_style='keep', prefix_style='off'):
+def transliterate_arabic(text, style='standard', number_style='keep', assimilation_style='off', prefix_style='off'):
     if style == 'formal':
         arabic_transliteration = {
             'ا': 'ā', 'ب': 'b', 'ت': 't', 'ث': 'ṯ', 'ج': 'j', 'ح': 'ħ', 'خ': 'ḵ',
@@ -77,6 +77,22 @@ def transliterate_arabic(text, style='standard', number_style='keep', prefix_sty
             ' فَ': ' fa-',
             ' سَ': ' sa-'
         }
+    else:
+        prefixes = {}
+
+    if assimilation_style == "on":
+        fourth_exceptions = {
+            'التّ': 'ت-ت', 'الثّ': 'ث-ث', 'الدّ': 'د-د', 'الذّ': 'ذ-ذ',
+            'الرّ': 'ر-ر', 'الزّ': 'ز-ز', 'السّ': 'س-س', 'الشّ': 'ش-ش',
+            'الصّ': 'ص-ص', 'الضّ': 'ض-ض', 'الطّ': 'ط-ط', 'الظّ': 'ظ-ظ',
+            'اللّ': 'ل-ل', 'النّ': 'ن-ن',
+            'الْب': 'ل-ب', 'الْج': 'ل-ج', 'الْح': 'ل-ح', 'الْخ': 'ل-خ',
+            'الْع': 'ل-ع', 'الْغ': 'ل-غ', 'الْف': 'ل-ف', 'الْق': 'ل-ق',
+            'الْك': 'ل-ك', 'الْم': 'ل-م', 'الْه': 'ل-ه', 'الْو': 'ل-و',
+            'الْي': 'ل-ي', 'الْء': 'ل-ء',
+        }
+    else:
+        fourth_exceptions = {}
 
     exceptions = {
         'أَ': 'ءَ', 'إِ': 'ءِ', 'أُ': 'ءُ',
@@ -90,7 +106,7 @@ def transliterate_arabic(text, style='standard', number_style='keep', prefix_sty
         'َّ': 'َّ', 'ِّ': 'ِّ', 'ُّ': 'ُّ',
         'ًّ': 'ًّ', 'ٍّ': 'ٍّ', 'ٌّ': 'ٌّ',
         'ّْ': 'ّْ', 'ًا': 'ً', 'اً': 'ً',
-        'اِ': 'ِ'
+        'اِ': 'ِ', 'ُوا': 'ُو'
     }
 
     second_exceptions = {
@@ -115,24 +131,6 @@ def transliterate_arabic(text, style='standard', number_style='keep', prefix_sty
         third_exceptions = {
             'ُو': 'ُ', 'ِي': 'ِ', 'وْ': 'w',
             'َى': 'ى', 'ِى': 'ِي', 'َٰ': 'ا'
-        }
-
-    if style == 'casual':
-        fourth_exceptions = {}
-        prefixes = {}
-    elif style == 'ascii':
-        fourth_exceptions = {}
-        prefixes = {}
-    else:
-        fourth_exceptions = {
-            'التّ': 'ت-ت', 'الثّ': 'ث-ث', 'الدّ': 'د-د', 'الذّ': 'ذ-ذ',
-            'الرّ': 'ر-ر', 'الزّ': 'ز-ز', 'السّ': 'س-س', 'الشّ': 'ش-ش',
-            'الصّ': 'ص-ص', 'الضّ': 'ض-ض', 'الطّ': 'ط-ط', 'الظّ': 'ظ-ظ',
-            'اللّ': 'ل-ل', 'النّ': 'ن-ن',
-            'الْب': 'ل-ب', 'الْج': 'ل-ج', 'الْح': 'ل-ح', 'الْخ': 'ل-خ',
-            'الْع': 'ل-ع', 'الْغ': 'ل-غ', 'الْف': 'ل-ف', 'الْق': 'ل-ق',
-            'الْك': 'ل-ك', 'الْم': 'ل-م', 'الْه': 'ل-ه', 'الْو': 'ل-و',
-            'الْي': 'ل-ي', 'الْء': 'ل-ء',
         }
 
     def number_to_arabic_words(match):
