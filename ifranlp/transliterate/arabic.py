@@ -2,7 +2,7 @@ from num2words import num2words
 from ifranlp.diacritize import arabic
 import re
 
-def transliterate_arabic(text, style='standard', number_style='keep'):
+def transliterate_arabic(text, style='standard', number_style='keep', prefix_style='off'):
     if style == 'formal':
         arabic_transliteration = {
             'ا': 'ā', 'ب': 'b', 'ت': 't', 'ث': 'ṯ', 'ج': 'j', 'ح': 'ħ', 'خ': 'ḵ',
@@ -42,7 +42,7 @@ def transliterate_arabic(text, style='standard', number_style='keep'):
             '٦': '6', '۶': '6', '٧': '7', '٨': '8', '٩': '9', '٠': '0',
         }
 
-    else:  # 'standard' is the default
+    else:
         arabic_transliteration = {
             'ا': 'a', 'ب': 'b', 'پ': 'p', 'ت': 't', 'ث': 'th', 'ج': 'j', 'ح': 'h', 'خ': 'kh',
             'د': 'd', 'ذ': 'dh', 'ر': 'r', 'ز': 'z', 'س': 's', 'ش': 'sh', 'ص': 's', 'ض': 'd',
@@ -56,6 +56,27 @@ def transliterate_arabic(text, style='standard', number_style='keep'):
         }
 
     tanwiin = ['ً', 'ٍ', 'ٌ', 'ْ']
+
+    if prefix_style == "on":
+        prefixes = {
+            ' وَبِ': ' wa-bi-',
+            ' وَلِ': ' wa-li-',
+            ' وَكَ': ' wa-ka-',
+
+            ' فَبِ': ' fa-bi-',
+            ' فَلِ': ' fa-li-',
+            ' فَكَ': ' fa-ka-',
+
+            ' وَسَ': ' wa-sa-',
+            ' فَسَ': ' fa-sa-',
+
+            ' بِ': ' bi-',
+            ' لِ': ' li-',
+            ' كَ': ' ka-',
+            ' وَ': ' wa-',
+            ' فَ': ' fa-',
+            ' سَ': ' sa-'
+        }
 
     exceptions = {
         'أَ': 'ءَ', 'إِ': 'ءِ', 'أُ': 'ءُ',
@@ -99,6 +120,9 @@ def transliterate_arabic(text, style='standard', number_style='keep'):
     if style == 'casual':
         fourth_exceptions = {}
         prefixes = {}
+    elif style == 'ascii':
+        fourth_exceptions = {}
+        prefixes = {}
     else:
         fourth_exceptions = {
             'التّ': 'ت-ت', 'الثّ': 'ث-ث', 'الدّ': 'د-د', 'الذّ': 'ذ-ذ',
@@ -110,25 +134,6 @@ def transliterate_arabic(text, style='standard', number_style='keep'):
             'الْك': 'ل-ك', 'الْم': 'ل-م', 'الْه': 'ل-ه', 'الْو': 'ل-و',
             'الْي': 'ل-ي', 'الْء': 'ل-ء',
         }
-        prefixes = {
-            ' وَبِ': ' wa-bi-',
-            ' وَلِ': ' wa-li-',
-            ' وَكَ': ' wa-ka-',
-
-            ' فَبِ': ' fa-bi-',
-            ' فَلِ': ' fa-li-',
-            ' فَكَ': ' fa-ka-',
-
-            ' وَسَ': ' wa-sa-',
-            ' فَسَ': ' fa-sa-',
-
-            ' بِ': ' bi-',
-            ' لِ': ' li-',
-            ' كَ': ' ka-',
-            ' وَ': ' wa-',
-            ' فَ': ' fa-',
-            ' سَ': ' sa-'
-        }
 
     def number_to_arabic_words(match):
         number = int(match.group())
@@ -137,7 +142,6 @@ def transliterate_arabic(text, style='standard', number_style='keep'):
     def replace_numbers_with_words(text):
         return re.sub(r'\b\d+\b', number_to_arabic_words, text)
 
-    # The new logic for your number_style setting
     if number_style == 'words':
         text = replace_numbers_with_words(text)
 
@@ -176,7 +180,10 @@ def transliterate_arabic(text, style='standard', number_style='keep'):
             text = text.replace(exception, replacement)
 
     for exception, replacement in prefixes.items():
-        text = text.replace(exception, replacement)
+        if text.startswith(exception[1:]):
+            text = f"{replacement[1:]}" + text[len(exception[1:]):]
+        elif exception in text:
+            text = text.replace(exception, replacement)
 
     text = text.replace('َا', 'ا')
 
@@ -187,13 +194,11 @@ def transliterate_arabic(text, style='standard', number_style='keep'):
         char = text[i]
 
         if char == 'ّ':
-            # Check if there's a character before the shaddah
             if i > 0:
                 prev_char = text[i - 1]
                 translit = arabic_transliteration.get(prev_char, prev_char)
                 transliterated_text += translit  # Double the previous letter
 
-            # Skip the shaddah character and continue to the next one
             i += 1
             continue
 

@@ -3,6 +3,7 @@ from . import amharic
 from . import arabic
 from . import aramaic
 from . import armenian
+from . import baybayin
 from . import burmese
 from . import chinese
 from . import cyrillic
@@ -14,6 +15,7 @@ from . import japanese
 from . import kannada
 from . import khmer
 from . import korean
+from . import lao
 from . import malayalam
 from . import nko
 from . import punjabi

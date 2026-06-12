@@ -8,13 +8,13 @@ def transliterate_lao(text):
 
         'ະ': 'a', 'າ': 'aa', 'ິ': 'i', 'ີ': 'ii', 'ຶ': 'eu', 'ື': 'euu',
         'ຸ': 'u', 'ູ': 'uu', '່': '', '້': '', '໊': '', '໋': '', '໌': '',
-        'ເ': 'e', 'ແ': 'ae', 'ໂ': 'o', 'ໃ': 'ai', 'ໄ': 'ai', 'ົ': 'o', 'ຽ': 'ia', 'ຸ': 'u',
+        'ເ': 'e', 'ແ': 'ae', 'ໂ': 'o', 'ໃ': 'ai', 'ໄ': 'ai', 'ົ': 'o', 'ຽ': 'ia',
 
         ' ': ' ', 'ໆ': ' ', 'ຫຼ': 'hl', '຺': '',
     }
 
-    transiliterated_text = ''
+    transliterated_text = ''
     for char in text:
-        transliterated_char = khmer_transliteration.get(char, char)
+        transliterated_char = mapping.get(char, char)
         transliterated_text += transliterated_char
     return transliterated_text

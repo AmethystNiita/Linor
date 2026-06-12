@@ -4,6 +4,7 @@ import regex as re
 
 language = "Adlam"
 style = "Standard"
+version = "2.1.2"
 itra = ifranlp.transliterate
 ipro = ifranlp.pronunciate
 
@@ -12,7 +13,7 @@ category_languages = {
         "Adlam", "N'Ko"
     ],
     "Asian": [
-        "Burmese (Beta)", "Chinese", "Khmer (Beta)", "Japanese", "Korean", "Thai"
+        "Baybayin", "Burmese", "Chinese", "Khmer", "Japanese", "Korean", "Thai"
     ],
     "Dravidian": [
         "Kannada", "Malayalam", "Tamil"
@@ -26,14 +27,13 @@ category_languages = {
         "Ukrainian"
     ],
     "Kartvelian": [
-        "Georgian (Asomtavruli)", "Georgian (Mkhedruli)",
-        "Georgian (Nuskhuri)"
+        "Asomtavruli", "Mkhedruli", "Nuskhuri"
     ],
     "Mongolic": [
         "Buryat", "Mongolian"
     ],
     "Semitic": [
-        "Amharic", "Arabic", "Aramaic (Syriac)", "Hebrew"
+        "Amharic", "Arabic", "Hebrew", "Syriac"
     ],
     "Turkic": [
         "Kazakh", "Kyrgyz", "Uyghur"
@@ -41,20 +41,20 @@ category_languages = {
 }
 
 language_styles = {
+    "Asomtavruli": ["Standard"],
+    "Mkhedruli": ["Standard"],
+    "Nuskhuri": ["Standard"],
     "Adlam": ["Standard"],
     "Amharic": ["Standard"],
-    "Arabic": ["Standard", "Casual", "Formal"],
-    "Aramaic (Syriac)": ["Standard"],
+    "Arabic": ["Standard", "ASCII", "Casual", "Formal"],
     "Armenian": ["Standard"],
+    "Baybayin": ["Standard"],
     "Belarusian": ["Standard"],
     "Bulgarian": ["Standard"],
     "Buryat": ["Standard"],
-    "Burmese (Beta)": ["Standard"],
+    "Burmese": ["Standard"],
     "Chinese": ["Standard"],
     "French": ["Standard", "Casual"],
-    "Georgian (Asomtavruli)": ["Standard"],
-    "Georgian (Mkhedruli)": ["Standard"],
-    "Georgian (Nuskhuri)": ["Standard"],
     "German": ["Standard", "Casual"],
     "Greek": ["Standard"],
     "Hebrew": ["Standard"],
@@ -62,7 +62,7 @@ language_styles = {
     "Japanese": ["Standard", "Hepburn", "Kunrei", "Passport"],
     "Kannada": ["Standard", "Casual", "Formal"],
     "Kazakh": ["Standard"],
-    "Khmer (Beta)": ["Standard"],
+    "Khmer": ["Standard"],
     "Korean": ["Standard"],
     "Kyrgyz": ["Standard"],
     "Macedonian": ["Standard"],
@@ -72,6 +72,7 @@ language_styles = {
     "Punjabi": ["Standard"],
     "Russian": ["Standard"],
     "Serbian": ["Standard"],
+    "Syriac": ["Standard"],
     "Tajik": ["Standard"],
     "Tamil": ["Standard", "Casual", "Formal"],
     "Thai": ["Standard"],
@@ -80,6 +81,7 @@ language_styles = {
 }
 
 languages_with_number_to_word = ["Arabic", "French", "German", "Hebrew", "Japanese", "Russian", "Thai"]
+languages_with_prefix = ["Arabic"]
 customtkinter.set_appearance_mode("dark")
 
 class App(customtkinter.CTk):
@@ -99,7 +101,7 @@ class App(customtkinter.CTk):
 
         self.sidebar_frame = customtkinter.CTkFrame(self, width=140, corner_radius=0)
         self.sidebar_frame.grid(row=0, column=0, rowspan=4, sticky="nsew")
-        self.sidebar_frame.grid_rowconfigure(11, weight=1)
+        self.sidebar_frame.grid_rowconfigure(12, weight=1)
 
         self.logo_label = customtkinter.CTkLabel(self.sidebar_frame, text="Linör",
                                                  font=customtkinter.CTkFont(family="Segoe UI", size=20, weight="bold"))
@@ -153,18 +155,25 @@ class App(customtkinter.CTk):
                                                          command=self.on_case_change
                                                          )
         self.case_combobox.grid(row=8, column=0, padx=20, pady=10)
-        self.case_combobox.set("As Is")  # Default to As Is
+        self.case_combobox.set("As Is")
 
         self.numbers_as_words_switch = customtkinter.CTkSwitch(self.sidebar_frame,
                                                                progress_color="#7F00CD",
-                                                               text="Numbers as Words",
+                                                               text="Numbers",
                                                                command=self.on_number_change)
         self.numbers_as_words_switch.grid(row=9, column=0, padx=20, pady=10)
         self.numbers_as_words_switch.deselect()
 
+        self.prefix_switch = customtkinter.CTkSwitch(self.sidebar_frame,
+                                                               progress_color="#7F00CD",
+                                                               text="Prefixes",
+                                                               command=self.on_prefix_change)
+        self.prefix_switch.grid(row=10, column=0, padx=20, pady=10)
+        self.prefix_switch.deselect()
+
         self.live_mode_switch = customtkinter.CTkSwitch(self.sidebar_frame, progress_color="#7F00CD",
-                                                        text="Live Mode", command=self.change_live_mode)
-        self.live_mode_switch.grid(row=10, column=0, padx=20, pady=10)
+                                                        text="Live", command=self.change_live_mode)
+        self.live_mode_switch.grid(row=11, column=0, padx=20, pady=10)
         self.live_mode_switch.select()
 
         self.update_language_options("African")
@@ -172,10 +181,10 @@ class App(customtkinter.CTk):
         self.transliterate_button = customtkinter.CTkButton(self.sidebar_frame, text="Transliterate!", width=120,
                                                             height=50, fg_color="#7F00CD", hover_color="#56008C",
                                                             command=self.transliterate)
-        self.transliterate_button.grid(row=12, column=0, padx=20, pady=(10, 10))
+        self.transliterate_button.grid(row=13, column=0, padx=20, pady=(10, 10))
 
-        self.style_label = customtkinter.CTkLabel(self.sidebar_frame, text="2.1.1")
-        self.style_label.grid(row=13, column=0, padx=(0, 0), pady=(0, 0), sticky="nsew")
+        self.version_label = customtkinter.CTkLabel(self.sidebar_frame, text=version)
+        self.version_label.grid(row=14, column=0, padx=(0, 0), pady=(0, 0), sticky="nsew")
 
     def on_language_change(self, choice):
         global language
@@ -189,6 +198,9 @@ class App(customtkinter.CTk):
         self.live_transliterate(None)
 
     def on_number_change(self):
+        self.live_transliterate(None)
+
+    def on_prefix_change(self):
         self.live_transliterate(None)
 
     def on_case_change(self, choice):
@@ -218,6 +230,11 @@ class App(customtkinter.CTk):
         else:
             self.numbers_as_words_switch.deselect()
             self.numbers_as_words_switch.configure(state="disabled", text_color="#404040")
+        if language in languages_with_prefix:
+            self.prefix_switch.configure(state="normal", text_color="#DCE4EE")
+        else:
+            self.prefix_switch.deselect()
+            self.prefix_switch.configure(state="disabled", text_color="#404040")
 
     def change_live_mode(self):
         self.live_mode_on = self.live_mode_switch.get()
@@ -230,23 +247,25 @@ class App(customtkinter.CTk):
         text = self.text_box.get("1.0", "end-1c")
         selected_style = self.style_combobox.get().lower()
         number_style = "words" if self.numbers_as_words_switch.get() == 1 else "keep"
+        prefix_style = "on" if self.prefix_switch.get() == 1 else "off"
         case_style = self.case_combobox.get().lower()
 
         transliteration_functions = {
             "Adlam": itra.adlam.transliterate_adlam,
             "Amharic": itra.amharic.transliterate_amharic,
             "Arabic": itra.arabic.transliterate_arabic,
-            "Aramaic (Syriac)": itra.aramaic.transliterate_syriac,
+            "Syriac": itra.aramaic.transliterate_syriac,
             "Armenian": itra.armenian.transliterate_armenian,
+            "Baybayin": itra.baybayin.transliterate_baybayin,
             "Belarusian": itra.cyrillic.transliterate_belarusian,
             "Bulgarian": itra.cyrillic.transliterate_bulgarian,
             "Buryat": itra.cyrillic.transliterate_buryat,
-            "Burmese (Beta)": itra.burmese.transliterate_burmese,
+            "Burmese": itra.burmese.transliterate_burmese,
             "Chinese": itra.chinese.transliterate_chinese,
             "French": ipro.french.pronunciate_french,
-            "Georgian (Asomtavruli)": itra.georgian.transliterate_asomtavruli,
-            "Georgian (Mkhedruli)": itra.georgian.transliterate_mkhedruli,
-            "Georgian (Nuskhuri)": itra.georgian.transliterate_nuskhuri,
+            "Asomtavruli": itra.georgian.transliterate_asomtavruli,
+            "Mkhedruli": itra.georgian.transliterate_mkhedruli,
+            "Nuskhuri": itra.georgian.transliterate_nuskhuri,
             "German": ipro.german.pronunciate_german,
             "Greek": itra.greek.transliterate_greek,
             "Hebrew": itra.hebrew.transliterate_hebrew,
@@ -254,7 +273,7 @@ class App(customtkinter.CTk):
             "Japanese": itra.japanese.transliterate_japanese,
             "Kannada": itra.kannada.transliterate_kannada,
             "Kazakh": itra.cyrillic.transliterate_kazakh,
-            "Khmer (Beta)": itra.khmer.transliterate_khmer,
+            "Khmer": itra.khmer.transliterate_khmer,
             "Korean": itra.korean.transliterate_korean,
             "Kyrgyz": itra.cyrillic.transliterate_kyrgyz,
             "Macedonian": itra.cyrillic.transliterate_macedonian,
