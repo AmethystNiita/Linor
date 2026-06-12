@@ -89,7 +89,7 @@ class App(customtkinter.CTk):
         super().__init__()
 
         self.title("Linör")
-        self.geometry(f"{1100}x{580}")
+        self.geometry(f"{1150}x{630}")
         self.iconbitmap("linor-logo.ico")
 
         self.grid_columnconfigure(0, weight=0)
