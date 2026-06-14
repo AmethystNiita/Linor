@@ -61,8 +61,17 @@ def transliterate_hindi(text):
         '्': '',
         '़': '',  # Handling '्' character
         'ृ': 'r',
-        'ज़': 'z'  # Handling 'ज़' character
-        # Add more mappings as needed
+        'ज़': 'z',  # Handling 'ज़' character
+        '०': '0',
+        '१': '1',
+        '२': '2',
+        '३': '3',
+        '४': '4',
+        '५': '5',
+        '६': '6',
+        '७': '7',
+        '८': '8',
+        '९': '9'
     }
 
     vowels = ('अ', 'आ', 'ऑ', 'औ', 'ई', 'इ', 'उ', 'ा', 'ि', 'ी', 'ु', 'ू', 'े', 'ै', 'ो', 'ॉ', 'ौ', '्', 'ँ', 'ं')

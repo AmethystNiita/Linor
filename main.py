@@ -1,10 +1,16 @@
-import ifranlp
+import sys
+import threading
+from tkinter import messagebox
+import webbrowser
 import customtkinter
+import ifranlp
 import regex as re
+import requests  # Added for internet request
+from packaging import version  # Added for smart version comparison
 
 language = "Adlam"
 style = "Standard"
-version = "2.1.2"
+version_number = "2.1.3"  # Renamed from 'version' to avoid conflicts with packaging.version
 itra = ifranlp.transliterate
 ipro = ifranlp.pronunciate
 
@@ -170,10 +176,47 @@ class App(customtkinter.CTk):
                                                             command=self.transliterate)
         self.transliterate_button.grid(row=1, column=0, padx=0, pady=(10, 10))
 
-        self.version_label = customtkinter.CTkLabel(self.bottom_container, text=version)
+        self.version_label = customtkinter.CTkLabel(self.bottom_container, text=version_number)
         self.version_label.grid(row=2, column=0, padx=0, pady=(0, 0))
 
         self.update_language_options("African")
+
+        # --- Start the update check gracefully in the background ---
+        self.start_update_check()
+
+    def start_update_check(self):
+        # We run this in a thread so your window opens instantly without lagging
+        update_thread = threading.Thread(target=self.check_for_updates, daemon=True)
+        update_thread.start()
+
+    def check_for_updates(self):
+        url = "https://api.github.com/repos/AmethystNiita/Linor/releases/latest"
+        headers = {"User-Agent": "Linor"}
+
+        try:
+            response = requests.get(url, headers=headers)
+            response.raise_for_status()
+
+            release_data = response.json()
+            latest_version_str = release_data["tag_name"].lstrip('v')
+
+            if version.parse(latest_version_str) > version.parse(version_number):
+                # Schedule the pop-up dialogue box to show on the main window thread safely
+                self.after(0, self.show_update_dialog, release_data["html_url"], release_data["tag_name"])
+
+        except requests.RequestException as e:
+            print(f"Update check failed: {e}", file=sys.stderr)
+        except KeyError:
+            print("Failed to parse update data: tag_name or html_url missing.", file=sys.stderr)
+
+    def show_update_dialog(self, update_url, tag_name):
+        title = "Update Available!"
+        message = f"A new version ({tag_name}) of Linör is waiting for you.\n\nWould you like to visit the release page to install it now?"
+
+        # Shows a native platform message box connected safely to your CustomTkinter app
+        response = messagebox.askyesno(title, message)
+        if response:
+            webbrowser.open(update_url)
 
     def on_language_change(self, choice):
         global language

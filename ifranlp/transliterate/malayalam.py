@@ -62,7 +62,7 @@ def transliterate_malayalam(text, style='standard'):
             'ൺ': 'ṇ', 'ൻ': 'n', 'ർ': 'r', 'ൽ': 'l', 'ൾ': 'ḷ',
         }
 
-    if style == 'casual':
+    elif style == 'casual':
         transliteration_map = {
         'അ': 'a', 'ആ': 'a', 'ഇ': 'i', 'ഈ': 'i', 'ഉ': 'u', 'ഊ': 'u',
         'ഋ': 'ru', 'എ': 'e', 'ഏ': 'e', 'ഐ': 'ai', 'ഒ': 'o', 'ഓ': 'o', 'ഔ': 'ou',
