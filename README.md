@@ -1,3 +1,9 @@
+<img width="1918" height="1013" alt="image" src="https://github.com/user-attachments/assets/2d3a50e0-7b19-486e-b677-b2ba63a3ddf9" />
+
+<p align="center"><i>95% accurate with Prefixes and Assimilation on!</i></p>
+<p align="center"><i>"wa-bi-āstiḵdāmi" -> "wa-bi-stiḵdāmi"</i></p>
+<p align="center"><i>"li-lmusāʿadati" -> "li-l-musāʿadati"</i></p>
+
 ## 💖 Linör
 
 Linör is a minimal, soft, and powerful desktop transliteration and pronunciation system. It provides a clean, distraction-free environment to instantly convert complex scripts, romanize texts, and hear the written word across dozens of global language families.
