@@ -1,8 +1,6 @@
-<img width="1918" height="1013" alt="image" src="https://github.com/user-attachments/assets/2d3a50e0-7b19-486e-b677-b2ba63a3ddf9" />
+<img width="1918" height="1015" alt="image" src="https://github.com/user-attachments/assets/69162b52-b079-4ed3-a81a-346caf38576a" />
 
-<p align="center"><i>95% accurate with Prefixes and Assimilation on!</i></p>
-<p align="center"><i>"wa-bi-āstiḵdāmi" -> "wa-bi-stiḵdāmi"</i></p>
-<p align="center"><i>"li-lmusāʿadati" -> "li-l-musāʿadati"</i></p>
+<p align="center"><i>Finally, 100% accurate with Prefixes and Assimilation!</i></p>
 
 ## 💖 Linör
 
