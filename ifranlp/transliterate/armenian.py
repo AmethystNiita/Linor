@@ -1,4 +1,7 @@
-def transliterate_armenian(text):
+import re
+from num2words import num2words
+
+def transliterate_armenian(text, number_style='keep'):
     chars = {
         "ու": "u", "Ու": "U",
         "Ա": "A", "Բ": "B", "Գ": "G", "Դ": "D", "Ե": "Ye", "Զ": "Z", "Է": "E", "Ը": "Ə", "Թ": "Tʿ",
@@ -12,6 +15,16 @@ def transliterate_armenian(text):
         "պ": "p", "ջ": "j", "ռ": "ṙ", "ս": "s", "վ": "v", "տ": "t", "ր": "r", "ց": "tsʿ",
         "ւ": "w", "փ": "pʿ", "ք": "kʿ", "օ": "o", "ֆ": "f", "և": "yev", "՞": "", "՚": "", "։": '.'
     }
+
+    def number_to_words(match):
+        number = int(match.group())
+        return num2words(number, lang='hy')
+
+    def replace_numbers_with_words(txt):
+        return re.sub(r'\b\d+\b', number_to_words, txt)
+
+    if number_style == 'words':
+        text = replace_numbers_with_words(text)
 
     result = ""
     for char in text:

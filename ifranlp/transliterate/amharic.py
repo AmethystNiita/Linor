@@ -1,6 +1,7 @@
 import re
+from num2words import num2words
 
-def transliterate_amharic(text):
+def transliterate_amharic(text, number_style='keep'):
     amharic_transliteration = {
         # Main Consonant Syllabary (1st to 7th orders)
         'ሀ': 'hä', 'ሁ': 'hu', 'ሂ': 'hī', 'ሃ': 'ha', 'ሄ': 'hē', 'ህ': 'hi', 'ሆ': 'ho',
@@ -54,6 +55,16 @@ def transliterate_amharic(text):
         # Punctuation Marks
         '።': '.', '፣': ',', '፤': ';', '፥': ':', '፦': ':-', '፧': '?', '፨': '¶'
     }
+
+    def number_to_words(match):
+        number = int(match.group())
+        return num2words(number, lang='am')
+
+    def replace_numbers_with_words(txt):
+        return re.sub(r'\b\d+\b', number_to_words, txt)
+
+    if number_style == 'words':
+        text = replace_numbers_with_words(text)
 
     tokens = re.findall(r"([\w'’]+|[.,!?:;።፣\s])", text)
     final_output = []

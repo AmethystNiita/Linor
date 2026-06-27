@@ -5,18 +5,18 @@ import webbrowser
 import customtkinter
 import ifranlp
 import regex as re
-import requests  # Added for internet request
-from packaging import version  # Added for smart version comparison
+import requests
+from packaging import version
 
 language = "Adlam"
 style = "Standard"
-version_number = "2.1.3"  # Renamed from 'version' to avoid conflicts with packaging.version
+version_number = "2.1.5"
 itra = ifranlp.transliterate
 ipro = ifranlp.pronunciate
 
 category_languages = {
     "African": ["Adlam", "N'Ko"],
-    "Asian": ["Baybayin", "Burmese", "Chinese", "Khmer", "Japanese", "Korean", "Thai"],
+    "Asian": ["Baybayin", "Burmese", "Chinese", "Japanese", "Khmer", "Korean", "Lao", "Thai"],
     "Dravidian": ["Kannada", "Malayalam", "Tamil"],
     "Indic": ["Hindi", "Punjabi"],
     "Indo-European": [
@@ -44,17 +44,16 @@ language_styles = {
     "Buryat": ["Standard"],
     "Burmese": ["Standard"],
     "Chinese": ["Standard"],
-    "French": ["Standard", "Casual"],
-    "German": ["Standard", "Casual"],
     "Greek": ["Standard"],
     "Hebrew": ["Standard"],
-    "Hindi": ["Standard"],
+    "Hindi": ["Standard", "Casual", "Formal"],
     "Japanese": ["Standard", "Hepburn", "Kunrei", "Passport"],
     "Kannada": ["Standard", "Casual", "Formal"],
     "Kazakh": ["Standard"],
     "Khmer": ["Standard"],
     "Korean": ["Standard"],
     "Kyrgyz": ["Standard"],
+    "Lao": ["Standard"],
     "Macedonian": ["Standard"],
     "Malayalam": ["Standard", "Casual", "Formal"],
     "Mongolian": ["Standard"],
@@ -70,7 +69,7 @@ language_styles = {
     "Uyghur": ["Standard"]
 }
 
-languages_with_number_to_word = ["Arabic", "French", "German", "Hebrew", "Japanese", "Russian", "Thai"]
+languages_with_number_to_word = ["Amharic", "Arabic", "Armenian", "Belarusian", "Chinese", "Hindi", "Hebrew", "Japanese", "Kannada", "Kazakh", "Korean", "Lao", "Mongolian", "Russian", "Serbian", "Tajik", "Thai", "Ukrainian"]
 languages_with_prefix = ["Arabic"]
 customtkinter.set_appearance_mode("dark")
 
@@ -125,7 +124,7 @@ class App(customtkinter.CTk):
                                                       command=self.on_language_change)
         self.combobox_2.grid(row=4, column=0, padx=20, pady=10)
 
-        # --- SWAPPED: Capitalization now stays firmly on top ---
+
         self.case_label = customtkinter.CTkLabel(self.sidebar_frame, text="Capitalization")
         self.case_label.grid(row=5, column=0, padx=(0, 0), pady=(0, 0), sticky="nsew")
 
@@ -145,7 +144,6 @@ class App(customtkinter.CTk):
                                                           button_color="#6700AB", button_hover_color="#56008C",
                                                           command=self.on_style_change)
 
-        # --- Dynamic Switches ---
         self.numbers_as_words_switch = customtkinter.CTkSwitch(self.sidebar_frame,
                                                                progress_color="#7F00CD",
                                                                text="Numbers",
@@ -161,7 +159,6 @@ class App(customtkinter.CTk):
                                                            text="Assimilation",
                                                            command=self.on_assimilation_change)
 
-        # --- Permanent Bottom Action Bar ---
         self.bottom_container = customtkinter.CTkFrame(self.sidebar_frame, fg_color="transparent")
         self.bottom_container.grid(row=13, column=0, padx=20, pady=(20, 10), sticky="s")
         self.sidebar_frame.grid_rowconfigure(13, weight=1)
@@ -181,11 +178,9 @@ class App(customtkinter.CTk):
 
         self.update_language_options("African")
 
-        # --- Start the update check gracefully in the background ---
         self.start_update_check()
 
     def start_update_check(self):
-        # We run this in a thread so your window opens instantly without lagging
         update_thread = threading.Thread(target=self.check_for_updates, daemon=True)
         update_thread.start()
 
@@ -201,7 +196,6 @@ class App(customtkinter.CTk):
             latest_version_str = release_data["tag_name"].lstrip('v')
 
             if version.parse(latest_version_str) > version.parse(version_number):
-                # Schedule the pop-up dialogue box to show on the main window thread safely
                 self.after(0, self.show_update_dialog, release_data["html_url"], release_data["tag_name"])
 
         except requests.RequestException as e:
@@ -212,8 +206,6 @@ class App(customtkinter.CTk):
     def show_update_dialog(self, update_url, tag_name):
         title = "Update Available!"
         message = f"A new version ({tag_name}) of Linör is waiting for you.\n\nWould you like to visit the release page to install it now?"
-
-        # Shows a native platform message box connected safely to your CustomTkinter app
         response = messagebox.askyesno(title, message)
         if response:
             webbrowser.open(update_url)
@@ -255,8 +247,6 @@ class App(customtkinter.CTk):
         if styles:
             self.style_combobox.set(styles[0])
             self.on_style_change(styles[0])
-
-        # Style visibility rules
         if len(styles) <= 1:
             self.style_label.grid_forget()
             self.style_combobox.grid_forget()
@@ -264,14 +254,12 @@ class App(customtkinter.CTk):
             self.style_label.grid(row=7, column=0, padx=(0, 0), pady=(0, 0), sticky="nsew")
             self.style_combobox.grid(row=8, column=0, padx=20, pady=10)
 
-        # Numbers visibility rules
         if language in languages_with_number_to_word:
             self.numbers_as_words_switch.grid(row=9, column=0, padx=20, pady=10)
         else:
             self.numbers_as_words_switch.deselect()
             self.numbers_as_words_switch.grid_forget()
 
-        # Prefixes visibility rules
         if language in languages_with_prefix:
             self.prefix_switch.grid(row=10, column=0, padx=20, pady=10)
             self.assimilation_switch.grid(row=11, column=0, padx=20, pady=10)
@@ -322,6 +310,7 @@ class App(customtkinter.CTk):
             "Khmer": itra.khmer.transliterate_khmer,
             "Korean": itra.korean.transliterate_korean,
             "Kyrgyz": itra.cyrillic.transliterate_kyrgyz,
+            "Lao": itra.lao.transliterate_lao,
             "Macedonian": itra.cyrillic.transliterate_macedonian,
             "Malayalam": itra.malayalam.transliterate_malayalam,
             "Mongolian": itra.cyrillic.transliterate_mongolian,
@@ -331,7 +320,7 @@ class App(customtkinter.CTk):
             "Serbian": itra.cyrillic.transliterate_serbian,
             "Tajik": itra.cyrillic.transliterate_tajik,
             "Tamil": itra.tamil.transliterate_tamil,
-            "Thai": itra.thai.thai_syllables,
+            "Thai": itra.thainew.thai_syllables,
             "Ukrainian": itra.cyrillic.transliterate_ukrainian,
             "Uyghur": itra.uyghur.transliterate_uyghur,
         }

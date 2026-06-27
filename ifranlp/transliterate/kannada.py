@@ -1,4 +1,7 @@
-def transliterate_kannada(text, style='standard'):
+from num2words import num2words
+import re
+
+def transliterate_kannada(text, style='standard', number_style='keep'):
     if style == 'formal':
         transliteration_map= {
             'ಅ': 'a', 'ಆ': 'ā', 'ಇ': 'i', 'ಈ': 'ī', 'ಉ': 'u', 'ಊ': 'ū', 'ಋ': 'r̥',
@@ -13,7 +16,7 @@ def transliterate_kannada(text, style='standard'):
             'ಜ್ಞ': 'jñ',
             'ಾ': 'ā', 'ಿ': 'i', 'ೀ': 'ī', 'ು': 'u', 'ೂ': 'ū', 'ೃ': 'r̥',
             'ೆ': 'e', 'ೇ': 'ē', 'ೈ': 'ai', 'ೊ': 'o', 'ೋ': 'ō', 'ೌ': 'au',
-            'ಂ': 'ṁ', 'ಃ': 'ḥ', '್': '',
+            'ಂ': 'ṁ', 'ಃ': 'ḥ', '್': '', 'ೖ': '',
             '೦': '0', '೧': '1', '೨': '2', '೩': '3', '೪': '4',
             '೫': '5', '೬': '6', '೭': '7', '೮': '8', '೯': '9'
         }
@@ -32,7 +35,7 @@ def transliterate_kannada(text, style='standard'):
             'ಜ್ಞ': 'jn',
             'ಾ': 'a', 'ಿ': 'i', 'ೀ': 'i', 'ು': 'u', 'ೂ': 'u', 'ೃ': 'ru',
             'ೆ': 'e', 'ೇ': 'e', 'ೈ': 'ai', 'ೊ': 'o', 'ೋ': 'o', 'ೌ': 'au',
-            'ಂ': 'm', 'ಃ': 'h', '್': '',
+            'ಂ': 'm', 'ಃ': 'h', '್': '', 'ೖ': '',
             '೦': '0', '೧': '1', '೨': '2', '೩': '3', '೪': '4',
             '೫': '5', '೬': '6', '೭': '7', '೮': '8', '೯': '9'
         }
@@ -51,12 +54,21 @@ def transliterate_kannada(text, style='standard'):
             'ಜ್ಞ': 'jn',
             'ಾ': 'aa', 'ಿ': 'i', 'ೀ': 'ee', 'ು': 'u', 'ೂ': 'oo', 'ೃ': 'ru',
             'ೆ': 'e', 'ೇ': 'e', 'ೈ': 'ai', 'ೊ': 'o', 'ೋ': 'o', 'ೌ': 'au',
-            'ಂ': 'm', 'ಃ': 'h', '್': '',
+            'ಂ': 'm', 'ಃ': 'h', '್': '', 'ೖ': '',
             '೦': '0', '೧': '1', '೨': '2', '೩': '3', '೪': '4',
             '೫': '5', '೬': '6', '೭': '7', '೮': '8', '೯': '9'
         }
 
-    # Define sets of characters for logic
+    def number_to_words(match):
+        number = int(match.group())
+        return num2words(number, lang='kn')
+
+    def replace_numbers_with_words(txt):
+        return re.sub(r'\b\d+\b', number_to_words, txt)
+
+    if number_style == 'words':
+        text = replace_numbers_with_words(text)
+
     kannada_vowels = set('ಅಆಇಈಉಊಋಎಏಐಒಓಔ')
     kannada_consonants = set('ಕಖಗಘಙಚಛಜಝಞಟಠಡಢಣತಥದಧನಪಫಬಭಮಯರಲವಶಷಸಹಳ')
     kannada_vowel_signs = set('ಾಿೀುೂೃೆೇೈೊೋೌ')

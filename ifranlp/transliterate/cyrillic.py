@@ -58,7 +58,7 @@ def transliterate_russian(text, number_style='keep'):
 
     return transliterated_text
 
-def transliterate_ukrainian(text):
+def transliterate_ukrainian(text, number_style='keep'):
     ukrainian_transliteration = {
         'а': 'a',
         'б': 'b',
@@ -96,6 +96,16 @@ def transliterate_ukrainian(text):
         # Add more mappings as needed
     }
 
+    def number_to_words(match):
+        number = int(match.group())
+        return num2words(number, lang='uk')
+
+    def replace_numbers_with_words(txt):
+        return re.sub(r'\b\d+\b', number_to_words, txt)
+
+    if number_style == 'words':
+        text = replace_numbers_with_words(text)
+
     transliterated_text = ''
     for char in text:
         # Use the transliteration mapping, or keep the original character if not found
@@ -107,7 +117,7 @@ def transliterate_ukrainian(text):
 
     return transliterated_text
 
-def transliterate_serbian(text):
+def transliterate_serbian(text, number_style='keep'):
     serbian_transliteration = {
         'а': 'a',
         'б': 'b',
@@ -142,6 +152,16 @@ def transliterate_serbian(text):
         # Add more mappings as needed
     }
 
+    def number_to_words(match):
+        number = int(match.group())
+        return num2words(number, lang='sr')
+
+    def replace_numbers_with_words(txt):
+        return re.sub(r'\b\d+\b', number_to_words, txt)
+
+    if number_style == 'words':
+        text = replace_numbers_with_words(text)
+
     transliterated_text = ''
     for char in text:
         # Use the transliteration mapping, or keep the original character if not found
@@ -153,7 +173,7 @@ def transliterate_serbian(text):
 
     return transliterated_text
 
-def transliterate_belarusian(text):
+def transliterate_belarusian(text, number_style='keep'):
     belarusian_transliteration = {
         'а': 'a',
         'б': 'b',
@@ -190,6 +210,16 @@ def transliterate_belarusian(text):
         'я': 'ya'
         # Add more mappings as needed
     }
+
+    def number_to_words(match):
+        number = int(match.group())
+        return num2words(number, lang='by')
+
+    def replace_numbers_with_words(txt):
+        return re.sub(r'\b\d+\b', number_to_words, txt)
+
+    if number_style == 'words':
+        text = replace_numbers_with_words(text)
 
     transliterated_text = ''
     for char in text:
@@ -294,7 +324,7 @@ def transliterate_macedonian(text):
 
     return transliterated_text
 
-def transliterate_kazakh(text):
+def transliterate_kazakh(text, number_style='keep'):
     kazakh_transliteration = {
         'а': 'a',
         'б': 'b',
@@ -339,6 +369,16 @@ def transliterate_kazakh(text):
         'я': 'ya'
         # Add more mappings as needed
     }
+
+    def number_to_words(match):
+        number = int(match.group())
+        return num2words(number, lang='kz')
+
+    def replace_numbers_with_words(txt):
+        return re.sub(r'\b\d+\b', number_to_words, txt)
+
+    if number_style == 'words':
+        text = replace_numbers_with_words(text)
 
     transliterated_text = ''
     for char in text:
@@ -398,7 +438,7 @@ def transliterate_kyrgyz(text):
 
     return transliterated_text
 
-def transliterate_tajik(text):
+def transliterate_tajik(text, number_style='keep'):
     tajik_transliteration = {
         'а': 'a',
         'б': 'b',
@@ -441,6 +481,16 @@ def transliterate_tajik(text):
         # Add more mappings as needed
     }
 
+    def number_to_words(match):
+        number = int(match.group())
+        return num2words(number, lang='tg')
+
+    def replace_numbers_with_words(txt):
+        return re.sub(r'\b\d+\b', number_to_words, txt)
+
+    if number_style == 'words':
+        text = replace_numbers_with_words(text)
+
     transliterated_text = ''
     for char in text:
         transliterated_char = tajik_transliteration.get(char.lower(), char)
@@ -450,7 +500,7 @@ def transliterate_tajik(text):
 
     return transliterated_text
 
-def transliterate_mongolian(text):
+def transliterate_mongolian(text, number_style='keep'):
     mongolian_transliteration = {
         'а': 'a',
         'б': 'b',
@@ -489,6 +539,16 @@ def transliterate_mongolian(text):
         'я': 'ya'
         # Add more mappings as needed
     }
+
+    def number_to_words(match):
+        number = int(match.group())
+        return num2words(number, lang='mn')
+
+    def replace_numbers_with_words(txt):
+        return re.sub(r'\b\d+\b', number_to_words, txt)
+
+    if number_style == 'words':
+        text = replace_numbers_with_words(text)
 
     transliterated_text = ''
     for char in text:

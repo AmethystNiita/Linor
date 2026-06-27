@@ -1,7 +1,8 @@
 import unicodedata
+from num2words import num2words
+import re
 
-
-def transliterate_korean(text):
+def transliterate_korean(text, number_style='keep'):
     transliteration_map = {
         'ᄀ': 'g', 'ᄁ': 'kk', 'ᄂ': 'n', 'ᄃ': 'd', 'ᄄ': 'tt', 'ᄅ': 'l', 'ᄆ': 'm',
         'ᄇ': 'b', 'ᄈ': 'pp', 'ᄉ': 's', 'ᄊ': 'ss', 'ᄋ': '', 'ᄌ': 'j', 'ᄍ': 'jj',
@@ -15,6 +16,16 @@ def transliterate_korean(text):
         'ᆪ': 'ks', 'ᆬ': 'nj', 'ᆭ': 'nh', 'ᆰ': 'lg', 'ᆱ': 'lm', 'ᆲ': 'lb', 'ᆳ': 'ls',
         'ᆴ': 'lt', 'ᆵ': 'lp', 'ᆶ': 'lh', 'ᆹ': 'bs'
     }
+
+    def number_to_words(match):
+        number = int(match.group())
+        return num2words(number, lang='ko')
+
+    def replace_numbers_with_words(txt):
+        return re.sub(r'\b\d+\b', number_to_words, txt)
+
+    if number_style == 'words':
+        text = replace_numbers_with_words(text)
 
     transliterated_text = ''
     for char in text:

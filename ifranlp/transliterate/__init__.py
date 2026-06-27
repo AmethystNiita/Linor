@@ -21,6 +21,7 @@ from . import nko
 from . import punjabi
 from . import tamil
 from . import thai
+from . import thainew
 from . import uyghur
 
 __version__ = "2.0.1"

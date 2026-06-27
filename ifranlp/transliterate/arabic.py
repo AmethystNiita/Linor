@@ -82,6 +82,7 @@ def transliterate_arabic(text, style='standard', number_style='keep', assimilati
 
     if assimilation_style == "on":
         fourth_exceptions = {
+            'َ اسْت': 'a-st', 'ِ اسْت': 'i-st', 'ُ اسْت': 'u-st',
             'التّ': 'ت-ت', 'الثّ': 'ث-ث', 'الدّ': 'د-د', 'الذّ': 'ذ-ذ',
             'الرّ': 'ر-ر', 'الزّ': 'ز-ز', 'السّ': 'س-س', 'الشّ': 'ش-ش',
             'الصّ': 'ص-ص', 'الضّ': 'ض-ض', 'الطّ': 'ط-ط', 'الظّ': 'ظ-ظ',
@@ -90,11 +91,24 @@ def transliterate_arabic(text, style='standard', number_style='keep', assimilati
             'الْع': 'ل-ع', 'الْغ': 'ل-غ', 'الْف': 'ل-ف', 'الْق': 'ل-ق',
             'الْك': 'ل-ك', 'الْم': 'ل-م', 'الْه': 'ل-ه', 'الْو': 'ل-و',
             'الْي': 'ل-ي', 'الْء': 'ل-ء',
+            'الِْ': 'ل-ِ',
+        }
+        fifth_exceptions = {
+            'لِلتّ': 'لِت-ت', 'لِلثّ': 'لِث-ث', 'لِلدّ': 'لِد-د', 'لِلذّ': 'لِذ-ذ',
+            'لِلرّ': 'لِر-ر', 'لِلزّ': 'لِز-ز', 'لِلسّ': 'لِس-س', 'لِلشّ': 'لِش-ش',
+            'لِلصّ': 'لِص-ص', 'لِلضّ': 'لِض-ض', 'لِلطّ': 'لِط-ط', 'لِلظّ': 'لِظ-ظ',
+            'لِلّ': 'لِل-ل', 'لِلنّ': 'لِن-ن',
+            'لِلْب': 'لِل-ب', 'لِلْج': 'لِل-ج', 'لِلْح': 'لِل-ح', 'لِلْخ': 'لِل-خ',
+            'لِلْع': 'لِل-ع', 'لِلْغ': 'لِل-غ', 'لِلْف': 'لِل-ف', 'لِلْق': 'لِل-ق',
+            'لِلْك': 'لِل-ك', 'لِلْم': 'لِل-م', 'لِلْه': 'لِل-ه', 'لِلْو': 'لِل-و',
+            'لِلْي': 'لِل-ي', 'لِلْء': 'لِل-ء',
         }
     else:
-        fourth_exceptions = {}
+        fourth_exceptions = {'َ اسْت': 'a ist', 'ِ اسْت': 'i ist', 'ُ اسْت': 'u ist',}
+        fifth_exceptions = {}
 
     exceptions = {
+        'الِا': 'الِْ', 'ِا': 'ِ',
         'أَ': 'ءَ', 'إِ': 'ءِ', 'أُ': 'ءُ',
         'ئَ': 'ءَ', 'ئِ': 'ءِ', 'ئُ': 'ءُ',
         'الله': 'اللاه',
@@ -154,7 +168,7 @@ def transliterate_arabic(text, style='standard', number_style='keep', assimilati
     for exception, replacement in second_exceptions.items():
         text = text.replace(exception, replacement)
 
-    for exception, replacement in third_exceptions.items():
+    for exception, replacement in fifth_exceptions.items():
         text = text.replace(exception, replacement)
 
     for exception, replacement in fourth_exceptions.items():
@@ -176,6 +190,9 @@ def transliterate_arabic(text, style='standard', number_style='keep', assimilati
 
         if exception in text:
             text = text.replace(exception, replacement)
+
+    for exception, replacement in third_exceptions.items():
+        text = text.replace(exception, replacement)
 
     for exception, replacement in prefixes.items():
         if text.startswith(exception[1:]):

@@ -36,6 +36,11 @@ def transliterate_japanese(text, style='standard', number_style='keep'):
     elif style == 'passport':
         kks.setMode("r", "Passport")
 
+    if number_style == 'words':
+        def num2word(m):
+            return num2words(int(m.group()), lang='ja')
+        text = re.sub(r'\b\d+\b', num2word, text)
+
     kks.setMode("s", True)
 
     converter = kks.getConverter()
@@ -47,10 +52,5 @@ def transliterate_japanese(text, style='standard', number_style='keep'):
     if style == 'standard':
         for exception, replacement in long_vowels.items():
             output = output.replace(exception, replacement)
-
-    if number_style == 'words':
-        def num2word(m):
-            return num2words(int(m.group()), lang='ja')
-        text = re.sub(r'\b\d+\b', num2word, output)
 
     return output
