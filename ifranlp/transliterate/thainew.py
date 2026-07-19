@@ -18,10 +18,6 @@ thai_transliteration = {
     '้': '', '๊': '', '๋': '', '็': '', '์': '', 'ๆ': '', 'ํ': 'ang',
     'ฤ': 'rue', 'ฦ': 'lue',
     'ຍ': 'y',
-    #'\ue000': 'kr', '\ue001': 'khr', '\ue002': 'tr', '\ue003': 'pr',
-    #'\ue004': 'phr', '\ue005': 'kl', '\ue006': 'khl', '\ue007': 'pl',
-    #'\ue008': 'phl', '\ue009': 'kw', '\ue010': 'khw', '\ue011': 'sr',
-    #'\ue012': 's', '\ue013': 'w', '\ue014': '',
     '\ue015': 'ny', 'ຊ': 'x'
 }
 
@@ -41,6 +37,12 @@ mae_koei = {'ย'}
 thai_vowels = {'ะ', 'ั', 'า', 'ิ', 'ี', 'ึ', 'ื', 'ุ', 'ู', 'เ', 'แ', 'โ', 'ใ', 'ไ', 'ำ', '่', '้', '๊', '๋', '็', '์', 'ๆ'}
 thai_vowels_ai_sounds = {'ไ', 'ใ'}
 thai_vowels_with_no_ai_sounds = {'ะ', 'ั', 'า', 'ิ', 'ี', 'ึ', 'ื', 'ุ', 'ู', 'เ', 'แ', 'โ', 'ำ', '่', '้', '๊', '๋', '็', '์', 'ๆ'}
+
+# Moved clusters to the top level so all blocks can share them
+true_clusters = {'กร', 'กล', 'กว', 'ขร', 'ขล', 'ขว', 'คร', 'คล', 'คว',
+                 'ตร', 'ปร', 'ปล', 'ผล', 'ผว', 'พร', 'พล', 'บร', 'บล',
+                 'ฟร', 'ฟล', 'ดร'}
+fake_clusters = {'จร', 'ซร', 'ศร', 'สร'}
 
 karan_combinations = {
     "กดิ์": "ก", "กดิ": "ก", "ทธิ์": "ท", "ทธิ": "ทิ", "นพันธุ์": "น", "นธ์": "น", "นทร์": "น", "นทน์": "น",
@@ -75,8 +77,9 @@ proprietary_exceptions = {
 compounds = { 'บาร': 'bara', 'พุทธ': "phutha" }
 
 vowel_formats = {
+    '-รร_': '-a_',          '-รร': '-an',
+    'หเ-ีย_': '-ia_',
     'ทร-': 'so-',
-    # --- 1. Complex Vowels ---
     'เห-ียว': '-iao',    'เ-ียว': '-iao',
     'เห-ือะ': '-uea',    'เ-ือะ': '-uea',
     'เห-ือ_': '-uea_',   'เ-ือ_': '-uea_',
@@ -91,13 +94,9 @@ vowel_formats = {
     'เห-ี_': '-oe_',     'เ-ี_': '-oe_',
     'เห-อ': '-oe',      'เ-อ': '-oe',
     'เห-ี': '-oe',      'เ-ี': '-oe',
-
-    # --- 2. Front Vowels WITH Final Consonants ---
     'เห-_': '-e_',       'เ-_': '-e_',
     'แห-_': '-ae_',      'แ-_': '-ae_',
     'โห-_': '-o_',       'โ-_': '-o_',
-
-    # --- 3. Diphthongs & Special Combos ---
     'แห-ว': '-aew',      'แ-ว': '-aew',
     'โห-ย': '-oi',       'โ-ย': '-oi',
     'เห-า': '-ao',       'เ-า': '-ao',
@@ -105,14 +104,11 @@ vowel_formats = {
     'แห-ะ': '-ae',       'แ-ะ': '-ae',
     'โห-ะ': '-o',        'โ-ะ': '-o',
     'เห-ะ': '-e',        'เ-ะ': '-e',
-
-    # --- 4. Lao-Specific Bridges ---
     'เห-ั_': '-e_',       'เ-ั_': '-e_',
     'แห-ั_': '-ae_',      'แ-ั_': '-ae_',
     'ห-ัอ_': '-o_',       '-ัอ_': '-o_',
+    'ห-ย_': '-ia_',       '-ย_': '-ia_',
     'ห-ຽ_': '-ia_',       '-ຽ_': '-ia_',
-
-    # --- 5. Short/Long Vowels with Final Consonants ---
     'ห-ัวะ': '-ua',       '-ัวะ': '-ua',
     'ห-ัว': '-ua',        '-ัว': '-ua',
     'ห-ั_': '-a_',        '-ั_': '-a_',
@@ -123,8 +119,6 @@ vowel_formats = {
     'ห-วย': '-uai',       '-วย': '-uai',
     'ห-ว_': '-ua_',       '-ว_': '-ua_',
     'ห-าย': '-ai',        '-าย': '-ai',
-
-    # --- 6. Standard Base Vowels ---
     'ห-ำ': '-am',         '-ำ': '-am',
     'ให-': '-ai',         'ใ-': '-ai',
     'ไห-': '-ai',         'ไ-': '-ai',
@@ -142,7 +136,6 @@ vowel_formats = {
     'ห-ู': '-oo',         '-ู': '-oo',
     'ห-อ': '-or',         '-อ': '-or',
     'ห-ว': '-ua',         '-ว': '-ua',
-
     'ห-า_': '-a_',       '-า_': '-a_',
     'ห-ิ_': '-i_',          '-ิ_': '-i_',
     'ห-ี_': '-ee_',         '-ี_': '-ee_',
@@ -151,7 +144,7 @@ vowel_formats = {
     'ห-ุ_': '-u_',          '-ุ_': '-u_',
     'ห-ู_': '-oo_',         '-ู_': '-oo_',
     'ห-อ_': '-or_',        '-อ_': '-or_',
-    'ออ-': 'or-',          'ห-_': '-o_'
+    'ออ-': 'or-',          'ห-_': '-o_',
 }
 
 def number_to_thai_words(match):
@@ -208,22 +201,16 @@ def _process_syllable(syllable, lao=False):
             if initial_thai == 'อ':
                 initial_thai = ""
             elif len(initial_thai) > 1 and initial_thai.startswith('อ'):
-                initial_thai = initial_thai[1:]  # e.g., อย -> ย
+                initial_thai = initial_thai[1:]
 
             # --- 2. Cluster Analysis & initial_latin Generation ---
-            true_clusters = {'กร', 'กล', 'กว', 'ขร', 'ขล', 'ขว', 'คร', 'คล', 'คว',
-                             'ตร', 'ปร', 'ปล', 'ผล', 'ผว', 'พร', 'พล', 'บร', 'บล',
-                             'ฟร', 'ฟล', 'ดร'}
-            fake_clusters = {'จร', 'ซร', 'ศร', 'สร'}
-
-            # NEW INTERCEPT: If it's a 'ห นำ' word, strip the ห and skip cluster checks entirely!
             if len(initial_thai) > 1 and initial_thai.startswith('ห'):
-                initial_thai = initial_thai[1:]  # strip the ห
+                initial_thai = initial_thai[1:]
                 initial_latin = "".join([thai_transliteration.get(c, c) for c in initial_thai])
 
             elif len(initial_thai) == 2:
                 if initial_thai == 'ทร':
-                    initial_latin = 's'  # ทร makes an 's' sound (e.g., ทราบ)
+                    initial_latin = 's'
                 elif initial_thai in fake_clusters:
                     initial_latin = thai_transliteration.get(initial_thai[0], initial_thai[0])
                 elif initial_thai in true_clusters:
@@ -232,6 +219,7 @@ def _process_syllable(syllable, lao=False):
                     char1 = thai_transliteration.get(initial_thai[0], initial_thai[0])
                     char2 = thai_transliteration.get(initial_thai[1], initial_thai[1])
                     initial_latin = f"{char1}a{char2}"
+
             else:
                 initial_latin = "".join([thai_transliteration.get(c, c) for c in initial_thai])
 
@@ -250,21 +238,13 @@ def _process_syllable(syllable, lao=False):
                     final_latin_chars.append(thai_transliteration.get(c, c))
 
             final_latin = "".join(final_latin_chars)
-
             return replacement.replace('-', initial_latin).replace('_', final_latin)
 
-    # 4. Fallback Processing Block (Runs only if no vowel formats matched above)
+    # 4. Fallback Processing Block
     for exception, replacement in exceptions.items():
         modified_syllable = modified_syllable.replace(exception, replacement)
 
-    # Handle Ro Han (รร)
-    if 'รร' in modified_syllable:
-        if len(shape_check) == 3:
-            modified_syllable = modified_syllable.replace('รร', 'an')
-        else:
-            modified_syllable = modified_syllable.replace('รร', 'a')
-
-    # Special word exceptions ending in 'ร' (The "orn" sounds)
+    # Special word exceptions ending in 'ร'
     orn_defaults = {
         "กร": "korn", "ขร": "khorn", "คร": "khorn", "ตร": "torn",
         "จร": "jorn", "พร": "phorn", "ภร": "phorn", "สร": "sorn", "ศร": "sorn",
@@ -284,16 +264,45 @@ def _process_syllable(syllable, lao=False):
         elif modified_syllable[-1] in mae_kot:
             modified_syllable = modified_syllable[:-1] + 't'
 
-    # Handle 2-Consonant Implied Vowels (e.g., พบ -> phop, มด -> mot)
-    if len(shape_check) == 2 and all(c in thai_consonants for c in shape_check):
+    # Handle 2-Consonant Implied Vowels (e.g., พบ -> phop)
+    # Note: added 'ฤ' safeguard so words like พฤ flow down to the ro_rue_lo_lue dictionary
+    if len(shape_check) == 2 and all(c in thai_consonants for c in shape_check) and 'ฤ' not in shape_check:
         if shape_check.endswith('ว'):
             modified_syllable = thai_transliteration.get(shape_check[0], '') + 'ua'
         else:
             modified_syllable = shape_check[0] + 'o' + shape_check[1]
 
-    # Handle 3-Consonant Khmer Loans / Implied Vowels (e.g., สบถ -> sabot)
-    elif len(shape_check) == 3 and all(c in valid_khmer_loans for c in shape_check):
-        modified_syllable = f"{shape_check[0]}a{shape_check[1]}o{shape_check[2]}"
+    # --- New 3-Consonant Rules (Clusters, Khmer Loans, Implied Vowels) ---
+    elif len(shape_check) == 3 and all(c in thai_consonants for c in shape_check) and 'ฤ' not in shape_check:
+        first_two = shape_check[0:2]
+        mapped_last = modified_syllable[-1] # Grabs the already mapped final consonant (n, k, t, d) if applicable
+
+        if shape_check.endswith('ร'):
+            # Words ending with ร take the "orn" sound
+            if first_two in true_clusters:
+                init_lat = "".join([thai_transliteration.get(c, c) for c in first_two])
+                return f"{init_lat}orn"
+            elif first_two in fake_clusters or first_two == 'ทร':
+                init_lat = 's' if first_two == 'ทร' else thai_transliteration.get(first_two[0], first_two[0])
+                return f"{init_lat}orn"
+            else:
+                char1 = thai_transliteration.get(shape_check[0], shape_check[0])
+                char2 = thai_transliteration.get(shape_check[1], shape_check[1])
+                return f"{char1}a{char2}orn"
+        else:
+            # Words ending in other consonants take the "o" bridge or "a-o"
+            final_lat = 't' if mapped_last == 't' else thai_transliteration.get(mapped_last, mapped_last)
+
+            if first_two in true_clusters:
+                init_lat = "".join([thai_transliteration.get(c, c) for c in first_two])
+                return f"{init_lat}o{final_lat}"
+            elif first_two in fake_clusters or first_two == 'ทร':
+                init_lat = 's' if first_two == 'ทร' else thai_transliteration.get(first_two[0], first_two[0])
+                return f"{init_lat}o{final_lat}"
+            else:
+                char1 = thai_transliteration.get(shape_check[0], shape_check[0])
+                char2 = thai_transliteration.get(shape_check[1], shape_check[1])
+                return f"{char1}a{char2}o{final_lat}"
 
     for exception, replacement in ro_rue_lo_lue.items():
         if exception in modified_syllable:

@@ -10,7 +10,7 @@ from packaging import version
 
 language = "Adlam"
 style = "Standard"
-version_number = "2.1.5"
+version_number = "2.1.6"
 itra = ifranlp.transliterate
 ipro = ifranlp.pronunciate
 

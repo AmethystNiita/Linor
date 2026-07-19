@@ -30,7 +30,6 @@ def transliterate_lao(lao_text, number_style='keep'):
     clean_lao = nikhahit(clean_lao)
     thai_script = laonlp.lao2thai_script(clean_lao)
     thai_script = thai_script.replace('ญ', 'ย')
-    print(thai_script)
     if number_style == 'words':
         latin_output = lao_fix(thai_script, number_style='words')
     else:
