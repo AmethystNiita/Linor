@@ -61,6 +61,6 @@ Linör is powered by an incredible stack of open-source language models and UI f
 
 * **CustomTkinter** - Modern, custom-themed desktop interface framework.
 * **ifranlp** - Custom-tailored core linguistic processing, transliteration, and pronunciation library.
-* **PyThaiNLP / PyPinyin / PyKakasi** - Specialized regional tokenizers and phonetic translation layers.
+* **PyThaiNLP / LaoNLP / PyPinyin / PyKakasi / Num2Words** - Specialized regional tokenizers and phonetic translation layers.
 * **Scikit-learn & Python-CRFsuite** - Sequential machine learning tagging for data structural accuracy.
 * **Regex** - High-performance recursive Unicode sequence string handling.
