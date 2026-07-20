@@ -58,7 +58,7 @@ language_styles = {
     "Malayalam": ["Standard", "Casual", "Formal"],
     "Mongolian": ["Standard"],
     "N'Ko": ["Standard"],
-    "Punjabi": ["Standard"],
+    "Punjabi": ["Standard", "Casual", "Formal"],
     "Russian": ["Standard"],
     "Serbian": ["Standard"],
     "Syriac": ["Standard"],
