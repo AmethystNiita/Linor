@@ -1,29 +1,47 @@
-<img width="1918" height="1015" alt="image" src="https://github.com/user-attachments/assets/69162b52-b079-4ed3-a81a-346caf38576a" />
+![linör banner](https://github.com/user-attachments/assets/69162b52-b079-4ed3-a81a-346caf38576a)
 
-<p align="center"><i>Finally, 100% accurate with Prefixes and Assimilation!</i></p>
+<p align="center"><i>finally... 100% accurate with prefixes and assimilation~ ✨</i></p>
 
-## 💖 Linör
+## 💜 linör
 
-Linör is a minimal, and soft desktop transliteration and pronunciation app. It provides a clean environment to convert scripts, romanize texts, and see the written word across many language families.
+linör is a small, soft desktop app for transliteration and pronunciation... a cozy little place to explore writing systems, romanize text, and see how words come to life across different languages~
 
-## ✨ Features
+whether you're exploring an unfamiliar script, learning how words are pronounced, or simply curious about how languages work, linör is here to make the process a little easier~ 🌷
 
-* A smooth, dark purple aesthetic that is gentle on your eyes.
-* Transliterates your text in real-time as you type.
-* Organizes over 30 global scripts by geographic and linguistic families.
-* Toggle custom linguistic styles, sentence case formatting, and convert numbers into written words.
+## ✨ what it can do
 
-## 😍 Downloads and releases
+- 🌙 **a soft, dark purple interface** — a gentle little space that's easy on the eyes
+- 💫 **real-time transliteration** — watch your text transform as you type
+- 🌍 **30+ writing systems** — explore scripts organized by geographic and linguistic families
+- 🔮 **custom linguistic styles** — toggle different transliteration styles and make the output your own
+- 📝 **sentence case formatting** — keep your text looking the way you want
+- 🔢 **numbers into words** — turn numbers into their written forms, too~
 
-If you just want to run the app without messing with any code or terminals, you can download the ready-to-use version!
+## 🌷 getting linör
 
-1. Go to the "Releases" section on the right side of this GitHub page.
-2. Download the latest version.
-3. Run the installer and launch Linör.
+just here to use the app? no coding or terminal magic required~ :3
 
-## 🛠️ Built with
+1. head over to the **releases** section on the right side of this github page
+2. download the latest release
+3. run the installer and open linör~
 
-* **CustomTkinter** - Modern, custom-themed desktop interface framework.
-* **IfraNLP** - My own custom library for language processing, transliteration, and pronunciation.
-* **PyThaiNLP / LaoNLP / PyPinyin / PyKakasi / Num2Words** - Specialized tokenizers and phonetic translation layers.
-* **Regex** - High-performance recursive Unicode sequence string handling.
+and that's it... happy exploring~ 💜
+
+## 🛠️ made with
+
+linör is built with a handful of lovely tools and libraries, each helping with a different part of the process~
+
+- **[customtkinter](https://github.com/TomSchimansky/CustomTkinter)** — the foundation for its modern, custom-themed desktop interface
+- **ifranlp** — my own little library for language processing, transliteration, and pronunciation
+- **[pythainlp](https://github.com/PyThaiNLP/pythainlp)** — thai language processing
+- **[laonlp](https://github.com/wannaphong/Laonlp)** — lao language processing
+- **[pypinyin](https://github.com/mozillazg/python-pinyin)** — chinese romanization
+- **[pykakasi](https://github.com/miurahr/pykakasi)** — japanese script conversion
+- **[num2words](https://github.com/savoirfairelinux/num2words)** — converting numbers into words
+- **regex** — handling complex unicode text and linguistic patterns~
+
+---
+
+<p align="center">
+  <i>made with care, curiosity, and a love for languages~ 💜</i>
+</p>
